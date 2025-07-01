@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Franchise compliance Automation</string>
+    <string name="title_activity_main">Franchise compliance Automation</string>
+    <string name="package_name">com.shardaassociates.fca</string>
+    <string name="custom_url_scheme">com.shardaassociates.fca</string>
+</resources>

@@ -1,0 +1,14 @@
+{
+  "name": "Franchise Compliance Automation",
+  "short_name": "FCA",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#143542",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+name: Deploy Vite App to VPS
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy via SSH
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SERVER_IP }}
+          REMOTE_USER: root
+          TARGET: /var/www/tumbledry-frontend
+          SOURCE: dist/
+          SCRIPT_AFTER: |
+            chown -R www-data:www-data /var/www/tumbledry-frontend
+            chmod -R 755 /var/www/tumbledry-frontend
