@@ -28,8 +28,8 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SERVER_IP }}
           REMOTE_USER: root
-          TARGET: /home/fabraco
+          TARGET: /home/fabraco/dist  # Update to the correct path
           SOURCE: dist/
           SCRIPT_AFTER: |
-            chown -R www-data:www-data /home/fabraco
-            chmod -R 755 /home/fabraco
+            chown -R www-data:www-data /home/fabraco/dist  # Correct ownership
+            chmod -R 755 /home/fabraco/dist               # Correct permissions
