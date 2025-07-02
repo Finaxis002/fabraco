@@ -28,8 +28,8 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SERVER_IP }}
           REMOTE_USER: root
-          TARGET: /var/www/tumbledry-frontend
+          TARGET: /home/fabraco
           SOURCE: dist/
           SCRIPT_AFTER: |
-            chown -R www-data:www-data /var/www/tumbledry-frontend
-            chmod -R 755 /var/www/tumbledry-frontend
+            chown -R www-data:www-data /home/fabraco
+            chmod -R 755 /home/fabraco
