@@ -19,5 +19,10 @@ export default defineConfig({
         secure: false,
       },
     },
-  }
+  },
+   preview: {
+    host: true,
+    port: 4173,
+    allowedHosts: ['fabraco.sharda.co.in'],
+  },
 })
