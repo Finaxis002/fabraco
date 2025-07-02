@@ -11,7 +11,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 9002,
+    port: 6252,
     proxy: {
       '/api': {
         target: 'https://tumbledrybe.sharda.co.in', // or your backend URL

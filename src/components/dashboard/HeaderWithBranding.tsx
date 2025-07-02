@@ -32,7 +32,7 @@ function HeaderWithBranding({ currentUser }: HeaderWithBrandingProps) {
               Sharda Associates
             </h1>
             <p className="mt-1 flex items-center gap-2 text-base text-[#4a5568] font-medium">
-              <span className="inline-block w-2 h-2 rounded-full bg-green-400"></span>
+              <span className="inline-block w-2 h-2 rounded-full bg-blue-400"></span>
               FCA - Franchise Compliance Automation.
             </p>
           </div>
@@ -50,9 +50,7 @@ function HeaderWithBranding({ currentUser }: HeaderWithBrandingProps) {
           </div>
           <div
             className={`w-14 h-14 rounded-full flex items-center justify-center font-semibold text-white shadow-md border-2 border-white ${
-              currentUser.avatar
-                ? ""
-                : "bg-blue-500"
+              currentUser.avatar ? "" : "bg-blue-500"
             }`}
             style={
               currentUser.avatar
@@ -73,7 +71,7 @@ function HeaderWithBranding({ currentUser }: HeaderWithBrandingProps) {
           Last updated: {new Date().toLocaleDateString()}
         </div>
         <div className="px-3 py-1.5 bg-white/70 rounded-full text-base font-medium text-[#4a5568] backdrop-blur-sm shadow">
-          Role: <span className="text-green-600">{userRole}</span>
+          Role: <span className="text-blue-600">{userRole}</span>
         </div>
       </div>
     </div>

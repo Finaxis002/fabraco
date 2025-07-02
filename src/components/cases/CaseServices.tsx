@@ -169,145 +169,27 @@ const CaseServices: React.FC<CaseServicesProps> = ({
     }
   }, [highlightServiceId]);
 
-  // const handleStatusChange = (serviceId: string, newStatus: string) => {
-  //   const userStr = localStorage.getItem("user");
-  //   const userObj = userStr ? JSON.parse(userStr) : {};
-
-  //   setUpdatingServices((prev) => ({ ...prev, [serviceId]: true }));
-
-  //   const updatedServices = localServices.map((service) => ({
-  //     ...service,
-  //     _id: service._id || service.id, // ensure _id exists!
-  //   }));
-
-  //   setLocalServices(updatedServices);
-
-  //   // Calculate new overall status
-  //   let newOverallStatus: CaseStatus = "New-Case";
-  //   const allCompleted = updatedServices.every((s) => s.status === "Completed");
-  //   const anyInProgressOrCompleted = updatedServices.some(
-  //     (s) => s.status === "In-Progress" || s.status === "Completed"
-  //   );
-
-  //   if (allCompleted) {
-  //     newOverallStatus = "Completed";
-  //   } else if (anyInProgressOrCompleted) {
-  //     newOverallStatus = "In-Progress";
-  //   }
-
-  //   // Calculate completion percentage
-  //   const completedServices = updatedServices.filter(
-  //     (s) => s.status === "Completed"
-  //   ).length;
-  //   const newCompletionPercentage = Math.round(
-  //     (completedServices / updatedServices.length) * 100
-  //   );
-
-  //   const updatePayload = {
-  //     id: caseId,
-  //     services: updatedServices,
-  //     overallCompletionPercentage: newCompletionPercentage,
-  //     overallStatus: newOverallStatus,
-  //     status: newOverallStatus, // This is where we set both status fields to the same value
-  //     name: caseName || unitName || "",
-  //     unitName: unitName || caseName || "",
-  //     updatedAt: new Date().toISOString(),
-  //     lastUpdate: new Date().toISOString(),
-  //     readBy: [],
-  //   };
-  //   // console.log("Update Payload:", updatePayload);
-  //   // Rest of your dispatch code remains the same...
-  //   dispatch(updateCase(updatePayload))
-  //     .unwrap()
-  //     .then(async () => {
-  //       toast({
-  //         title: "Success",
-  //         description: "Service status updated successfully.",
-  //       });
-  //       if (onUpdate) onUpdate();
-
-  //       // --- Fetch assigned users ---
-  //       let assignedUsers = [];
-  //       let unitName = caseName || "";
-  //       try {
-  //         const caseRes =await axiosInstance.patch(`/cases/${caseId}/services/${serviceId}/status`, { status: newStatus });
-  //         assignedUsers = caseRes.data.assignedUsers || [];
-  //         unitName = caseRes.data.unitName || caseName || "";
-  //       } catch (err) {
-  //         // fallback: skip notification if fetching fails
-  //         console.warn("Could not fetch assigned users for notification.", err);
-  //       }
-
-  //       // --- Prepare notification ---
-  //       for (const user of assignedUsers) {
-  //         if (user.userId === userObj._id) continue;
-  //         try {
-  //           await axiosInstance.post("/pushnotifications/send-notification", {
-  //             userId: user._id,
-  //             message: `Service "${
-  //               localServices.find((s) => s.id === serviceId)?.name
-  //             }" in case "${unitName}" was updated to "${newStatus}" by ${
-  //               userObj.name
-  //             }.`,
-  //             icon: "https://tumbledry.sharda.co.in/favicon.png",
-  //           });
-  //         } catch (notifyErr) {
-  //           console.error(
-  //             `Error sending notification to ${user._id}:`,
-  //             notifyErr
-  //           );
-  //         }
-  //       }
-
-  //       // --- Super Admin Notification ---
-  //       const SUPER_ADMIN_ID = "68271c74487f3a8ea0dd6bdd";
-  //       try {
-  //         await axiosInstance.post("/pushnotifications/send-notification", {
-  //           userId: SUPER_ADMIN_ID,
-  //           message: `Service "${
-  //             localServices.find((s) => s.id === serviceId)?.name
-  //           }" in case "${unitName}" was updated to "${newStatus}" by ${
-  //             userObj.name
-  //           }.`,
-  //           icon: "https://tumbledry.sharda.co.in/favicon.png",
-  //         });
-  //       } catch (superAdminErr) {
-  //         console.error(
-  //           "Error sending notification to Super Admin:",
-  //           superAdminErr
-  //         );
-  //       }
-  //     })
-
-  //     .catch(() => {
-  //       toast({
-  //         title: "Error",
-  //         description: "Failed to update service status.",
-  //         variant: "destructive",
-  //       });
-  //       setLocalServices(services); // revert on failure
-  //     })
-  //     .finally(() => {
-  //       setIsUpdating(false);
-  //       setUpdatingServices((prev) => ({ ...prev, [serviceId]: false }));
-  //     });
-  // };
-
-  // console.log(overallCompletionPercentage);
 
 
 const handleStatusChange = async (serviceId: string, newStatus: string) => {
   setUpdatingServices((prev) => ({ ...prev, [serviceId]: true }));
 
   try {
-    const userStr = localStorage.getItem("user");
+   const userStr = localStorage.getItem("user");
     const userObj = userStr ? JSON.parse(userStr) : {};
 
-    // 1. Only call the PATCH API!
+    // Find the service object by id
+    const serviceObj = localServices.find(
+      (s) => s.id === serviceId || s._id === serviceId
+    );
+    const backendServiceId = serviceObj?._id || serviceObj?.id || serviceId;
+
+    // Use backendServiceId in the API call
     const caseRes = await axiosInstance.patch(
-      `/cases/${caseId}/services/${serviceId}/status`,
+      `/cases/${caseId}/services/${backendServiceId}/status`,
       { status: newStatus }
     );
+    console.log("API Response: ", caseRes);
 
     toast({
       title: "Success",

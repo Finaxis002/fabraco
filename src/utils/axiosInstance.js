@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://tumbledrybe.sharda.co.in/api",
+  baseURL: "http://localhost:9223/api",
 });
 
 axiosInstance.interceptors.request.use(

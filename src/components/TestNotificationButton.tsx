@@ -34,7 +34,7 @@ function TestNotificationButton() {
 
     try {
       const response = await fetch(
-        "https://tumbledrybe.sharda.co.in/api/pushnotifications/send-notification",
+        "http://localhost:9223/api/pushnotifications/send-notification",
         {
           method: "POST",
           headers: {

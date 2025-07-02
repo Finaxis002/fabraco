@@ -29,7 +29,7 @@ export default function ResetPasswordModal({
     }
 
     try {
-      const res = await fetch("https://tumbledrybe.sharda.co.in/api/admin/reset-password", {
+      const res = await fetch("http://localhost:9223/api/admin/reset-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

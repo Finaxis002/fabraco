@@ -123,7 +123,7 @@ export default function UserList({ refreshKey }: { refreshKey?: any }) {
   }, []);
 
   // Backend base URL - adjust accordingly
-  const BASE_URL = "https://tumbledrybe.sharda.co.in/api/users";
+  const BASE_URL = "http://localhost:9223/api/users";
 
   // Fetch users from backend
   const fetchUsers = async () => {

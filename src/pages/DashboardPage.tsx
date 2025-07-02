@@ -17,7 +17,6 @@ import ComplianceStatusOverview from "@/components/dashboard/compliance-status-o
 import { Briefcase, Users, Clock, Loader } from "lucide-react"; // Removed Activity, BarChart3 for now
 import HeaderWithBranding from "@/components/dashboard/HeaderWithBranding";
 import useRoleWatcher from "@/components/dashboard/useRoleWatcher";
-import { fetchPermissions } from "@/features/permissionsSlice";
 import { RootState } from "@/store";
 
 interface CaseStats {
@@ -82,7 +81,7 @@ export default function DashboardPage() {
 
         // Fetch cases from API
         const casesResponse = await fetch(
-          "https://tumbledrybe.sharda.co.in/api/cases",
+          "http://localhost:9223/api/cases",
           {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -93,7 +92,7 @@ export default function DashboardPage() {
 
         // Fetch users from API
         const usersResponse = await fetch(
-          "https://tumbledrybe.sharda.co.in/api/users",
+          "http://localhost:9223/api/users",
           {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,7 +130,7 @@ export default function DashboardPage() {
     const fetchCases = async () => {
       try {
         const res = await fetch(
-          "https://tumbledrybe.sharda.co.in/api/cases",
+          "http://localhost:9223/api/cases",
           {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -273,7 +272,9 @@ const caseStats: CaseStats = useMemo(() => {
     <>
      <div className="flex flex-col gap-4 ">
       {/* <TestNotificationButton /> */}
-       <HeaderWithBranding currentUser={{ name: currentUser.name }} />
+      <div>
+         <HeaderWithBranding currentUser={{ name: currentUser.name }} />
+      </div>
 
       <div className="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">
         <StatCard

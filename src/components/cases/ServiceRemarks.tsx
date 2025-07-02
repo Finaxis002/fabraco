@@ -86,8 +86,8 @@ const [inlineRemarkText, setInlineRemarkText] = useState("");
 
       // Choose API based on token availability
       const url = token
-        ? `https://tumbledrybe.sharda.co.in/api/cases/${caseId}/services/${serviceId}/remarks`
-        : `https://tumbledrybe.sharda.co.in/api/cases/${caseId}/services/${serviceId}`;
+        ? `http://localhost:9223/api/cases/${caseId}/services/${serviceId}/remarks`
+        : `http://localhost:9223/api/cases/${caseId}/services/${serviceId}`;
 
       const headers: Record<string, string> = {
         "Content-Type": "application/json",

@@ -413,11 +413,11 @@ export default function CasesPage() {
   const currentFilterLabel =
     FILTER_OPTIONS.find((opt) => opt.value === activeFilter)?.label || "Filter";
 
-  useEffect(() => {
-    if (currentUser && allCases.length > 0) {
-      setReady(true);
-    }
-  }, [currentUser, allCases]);
+ useEffect(() => {
+  if (currentUser && Array.isArray(allCases)) {
+    setReady(true);
+  }
+}, [currentUser, allCases]);
 
   const pageActions = (
     <div className="flex flex-wrap items-center gap-2">
@@ -507,12 +507,7 @@ export default function CasesPage() {
     </div>
   );
 
-  if (
-    loading ||
-    !currentUser ||
-    !Array.isArray(allCases) ||
-    allCases.length === 0
-  ) {
+if (loading || !currentUser) {
     return (
       <>
         <PageHeader
@@ -556,7 +551,7 @@ export default function CasesPage() {
 
       {filteredCases.length === 0 ? (
         <div className="text-center p-6 sm:p-10 text-gray-500 text-sm sm:text-base">
-          No cases found for this filter.
+          No cases found.
         </div>
       ) : (
         // On mobile, always show CardView. On desktop, allow switching.

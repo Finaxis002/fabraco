@@ -5,7 +5,7 @@ export async function getNewAccessToken() {
   try {
     // IMPORTANT: withCredentials:true so the cookie is sent!
     const res = await axios.post(
-      "https://tumbledrybe.sharda.co.in/api/auth/refresh",
+      "http://localhost:9223/api/auth/refresh",
       {},
       { withCredentials: true }
     );

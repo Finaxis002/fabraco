@@ -495,7 +495,7 @@ export default function AddCaseForm() {
         // Delete remarks for each deselected service
         for (const service of deselectedServices) {
           try {
-            await axiosInstance.delete(`https://tumbledrybe.sharda.co.in/api/remarks`, {
+            await axiosInstance.delete(`http://localhost:9223/api/remarks`, {
               data: {
                 caseId: caseId,
                 serviceId: service.serviceId || service.id,

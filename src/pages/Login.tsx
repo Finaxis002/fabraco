@@ -64,7 +64,7 @@ const Login = () => {
 
       try {
         const response = await fetch(
-          "https://tumbledrybe.sharda.co.in/api/pushnotifications/save-subscription",
+          "http://localhost:9223/api/pushnotifications/save-subscription",
           {
             method: "POST",
             body: JSON.stringify({
@@ -95,7 +95,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://tumbledrybe.sharda.co.in/api/auth/login",
+        "http://localhost:9223/api/auth/login",
         {
           userId,
           password,
@@ -118,7 +118,7 @@ const Login = () => {
       if (role !== "Admin") {
         try {
           const userRes = await axios.get(
-            `https://tumbledrybe.sharda.co.in/api/users/${user._id}`,
+            `http://localhost:9223/api/users/${user._id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -166,51 +166,13 @@ const Login = () => {
 
         <div className="p-8">
           {/* Logo/Title */}
-          <div className="flex justify-center mb-6">
-            <div
-              className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                isAdminLogin ? "bg-purple-100" : "bg-blue-100"
-              } shadow-inner`}
-            >
-              {isAdminLogin ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-purple-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-blue-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              )}
-            </div>
-          </div>
+          
 
           <h2 className="text-3xl font-bold text-center mb-2 text-gray-800">
-            {isAdminLogin ? "Admin Portal" : "Welcome Back"}
+            FCA - Fabraco
           </h2>
-          <p className="text-center text-gray-500 mb-8">
-            {isAdminLogin ? "Secure system access" : "Login to continue"}
+          <p className="text-center  text-cyan-600 my-4 text-xl font-semibold mb-8">
+            {isAdminLogin ? "Admin Dashboard" : "User Dashboard"}
           </p>
 
           {/* Role toggle */}

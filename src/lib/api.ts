@@ -1,10 +1,10 @@
-// src/libhttps://tumbledrybe.sharda.co.in/api.ts
+// src/libhttp://localhost:9223/api.ts
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import { Navigate } from "react-router-dom";
 
 const api = axios.create({
-  baseURL: "https://tumbledrybe.sharda.co.in/api",
+  baseURL: "http://localhost:9223/api",
 });
 
 api.interceptors.request.use((config) => {

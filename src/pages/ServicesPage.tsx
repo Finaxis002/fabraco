@@ -184,160 +184,84 @@ export default function ServicesPage() {
 
   const SUPER_ADMIN_ID = "68271c74487f3a8ea0dd6bdd";
 
-  // const handleStatusChange = async (serviceId: string, newStatus: string) => {
-  //   // Find the service and its parent case
-  //   const service = allServices.find((s) => s.id === serviceId);
-  //   if (!service) return;
-  //   const caseId = service.parentCase?._id;
-  //   if (!caseId) return;
-
-  //   // Prepare updated services array for the case
-  //   const parentCase = allCases.find((c: any) => c._id === caseId);
-  //   if (!parentCase) return;
-
-  //   const updatedServices = (parentCase.services ?? []).map((s: any) =>
-  //     s.id === serviceId ? { ...s, status: newStatus } : s
-  //   );
-
-  //   // Dispatch updateCase (or your update service API)
-  //   await dispatch(
-  //     updateCase({
-  //       ...parentCase,
-  //       services: updatedServices,
-  //     })
-  //   );
-  //   // Optionally, refresh cases after update
-  //   dispatch(getCases());
-
-  //   // --- PUSH NOTIFICATION LOGIC BELOW ---
-  //   try {
-  //     const userStr = localStorage.getItem("user");
-  //     const userObj = userStr ? JSON.parse(userStr) : {};
-  //     const caseName = parentCase.unitName || parentCase.name || "Case";
-  //     const assignedUsers = parentCase.assignedUsers || [];
-
-  //     // Send notification to all assigned users except the one making the change
-  //     for (const user of assignedUsers) {
-  //       const userId = typeof user === "string" ? user : user._id;
-  //       console.log("userid :", userId);
-  //       if (!userId) continue; // skip if undefined/null
-  //       if (userId === userObj._id) continue; // Skip self
-  //       try {
-  //         // await fetch(
-  //         //   "https://tumbledrybe.sharda.co.in/api/pushnotifications/send-notification",
-  //         //   {
-  //         //     method: "POST",
-  //         //     headers: { "Content-Type": "application/json" },
-  //         //     body: JSON.stringify({
-  //         //       userId: userId,
-  //         //       message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-  //         //       icon: "https://tumbledry.sharda.co.in/favicon.png", // Optional icon
-  //         //     }),
-  //         //   }
-  //         // );
-
-  //         await axiosInstance.post("/pushnotifications/send-notification", {
-  //           userId: userId,
-  //           message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-  //           icon: "https://tumbledry.sharda.co.in/favicon.png",
-  //         });
-  //       } catch (err) {
-  //         console.error(`Error sending notification to user ${userId}:`, err);
-  //       }
-  //     }
-
-  //     // Optionally: Notify Super Admin
-  //     try {
-  //       await axiosInstance.post("/pushnotifications/send-notification", {
-  //         userId: SUPER_ADMIN_ID,
-  //         message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-  //         icon: "https://tumbledry.sharda.co.in/favicon.png",
-  //       });
-  //     } catch (err) {
-  //       console.error("Error sending notification to Super Admin:", err);
-  //     }
-  //   } catch (err) {
-  //     console.error("Error in notification logic:", err);
-  //   }
-  // };
-
-
   const handleStatusChange = async (serviceId: string, newStatus: string) => {
-  // 1. Find the service and its parent case
-  const service = allServices.find((s) => s.id === serviceId || s._id === serviceId);
-  if (!service) return;
-  const caseId = service.parentCase?._id || service.parentCase?.id;
-  if (!caseId) return;
-
-  // 2. Call the PATCH endpoint (new API)
-  try {
-    const response = await axiosInstance.patch(
-      `/cases/${caseId}/services/${serviceId}/status`,
-      { status: newStatus }
+    // 1. Find the service and its parent case
+    const service = allServices.find(
+      (s) => s.id === serviceId || s._id === serviceId
     );
-    // Optionally, get the updated service (the new status) from the API response
-    const updatedCase = response.data.case;
-    const updatedService = updatedCase?.services?.find(
-      (s: { _id: string; id: string; }) => s._id === serviceId || s.id === serviceId
-    );
+    if (!service) return;
+    const caseId = service.parentCase?._id || service.parentCase?.id;
+    if (!caseId) return;
 
-    // 3. Update only the changed service in allServices
-    if (updatedService) {
-      setAllServices((prev) =>
-        prev.map((s) =>
-          (s.id === serviceId || s._id === serviceId)
-            ? { ...s, ...updatedService }
-            : s
-        )
+    // 2. Call the PATCH endpoint (new API)
+    try {
+      const response = await axiosInstance.patch(
+        `/cases/${caseId}/services/${serviceId}/status`,
+        { status: newStatus }
       );
-    } else {
-      // fallback: update status only
-      setAllServices((prev) =>
-        prev.map((s) =>
-          (s.id === serviceId || s._id === serviceId)
-            ? { ...s, status: newStatus }
-            : s
-        )
+      // Optionally, get the updated service (the new status) from the API response
+      const updatedCase = response.data.case;
+      const updatedService = updatedCase?.services?.find(
+        (s: { _id: string; id: string }) =>
+          s._id === serviceId || s.id === serviceId
       );
-    }
 
-    // --- PUSH NOTIFICATION LOGIC (same as before, optional) ---
-    const userStr = localStorage.getItem("user");
-    const userObj = userStr ? JSON.parse(userStr) : {};
-    const caseName = service.parentCase?.unitName || service.parentCase?.name || "Case";
-    const assignedUsers = service.parentCase?.assignedUsers || [];
+      // 3. Update only the changed service in allServices
+      if (updatedService) {
+        setAllServices((prev) =>
+          prev.map((s) =>
+            s.id === serviceId || s._id === serviceId
+              ? { ...s, ...updatedService }
+              : s
+          )
+        );
+      } else {
+        // fallback: update status only
+        setAllServices((prev) =>
+          prev.map((s) =>
+            s.id === serviceId || s._id === serviceId
+              ? { ...s, status: newStatus }
+              : s
+          )
+        );
+      }
 
-    for (const user of assignedUsers) {
-      const userId = typeof user === "string" ? user : user._id;
-      if (!userId || userId === userObj._id) continue;
+      // --- PUSH NOTIFICATION LOGIC (same as before, optional) ---
+      const userStr = localStorage.getItem("user");
+      const userObj = userStr ? JSON.parse(userStr) : {};
+      const caseName =
+        service.parentCase?.unitName || service.parentCase?.name || "Case";
+      const assignedUsers = service.parentCase?.assignedUsers || [];
+
+      for (const user of assignedUsers) {
+        const userId = typeof user === "string" ? user : user._id;
+        if (!userId || userId === userObj._id) continue;
+        try {
+          await axiosInstance.post("/pushnotifications/send-notification", {
+            userId,
+            message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
+            icon: "https://tumbledry.sharda.co.in/favicon.png",
+          });
+        } catch (err) {
+          console.error(`Error sending notification to user ${userId}:`, err);
+        }
+      }
+      // Notify Super Admin
       try {
         await axiosInstance.post("/pushnotifications/send-notification", {
-          userId,
+          userId: SUPER_ADMIN_ID,
           message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
           icon: "https://tumbledry.sharda.co.in/favicon.png",
         });
       } catch (err) {
-        console.error(`Error sending notification to user ${userId}:`, err);
+        console.error("Error sending notification to Super Admin:", err);
       }
-    }
-    // Notify Super Admin
-    try {
-      await axiosInstance.post("/pushnotifications/send-notification", {
-        userId: SUPER_ADMIN_ID,
-        message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-        icon: "https://tumbledry.sharda.co.in/favicon.png",
-      });
+      // --- END NOTIFICATION ---
     } catch (err) {
-      console.error("Error sending notification to Super Admin:", err);
+      alert("Failed to update service status!");
+      // (Optional: revert status or show error)
     }
-    // --- END NOTIFICATION ---
-
-  } catch (err) {
-    alert("Failed to update service status!");
-    // (Optional: revert status or show error)
-  }
-};
-
+  };
 
   useEffect(() => {
     const servicesWithEditTime: any[] = [];
@@ -452,8 +376,6 @@ export default function ServicesPage() {
     filteredServices.length > 0 ? filteredServices[0].parentCase?._id : null;
 
   console.log("case ID : ", caseId);
-
-
 
   return (
     <>
@@ -622,7 +544,7 @@ export default function ServicesPage() {
 
       {filteredServices.length === 0 ? (
         <div className="text-center p-6 sm:p-10 text-gray-500 text-sm sm:text-base">
-          No services found for this filter.
+          No services found.
         </div>
       ) : (
         // On mobile, always show CardView. On desktop, allow switching.
