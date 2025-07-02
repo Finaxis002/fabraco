@@ -4,7 +4,7 @@ import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const RECAPTCHA_SITE_KEY = "6Ldl13QrAAAAAEZ3dptOHyuFOHuU6YaFYv_3Xfuv";
+const RECAPTCHA_SITE_KEY = "6LfwLlMrAAAAAIFtLSnFxwGP_xfkeDU7xuz69sLa";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -169,7 +169,7 @@ const Login = () => {
           
 
           <h2 className="text-3xl font-bold text-center mb-2 text-gray-800">
-            FCA - Fabraco @@@@@@@@@@@@
+            FCA - Fabraco
           </h2>
           <p className="text-center  text-cyan-600 my-4 text-xl font-semibold mb-8">
             {isAdminLogin ? "Admin Dashboard" : "User Dashboard"}
