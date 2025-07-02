@@ -108,7 +108,7 @@ export default function CaseChat({
 
   // Socket connection and event handlers
   useEffect(() => {
-    socket = io("http://localhost:9223", {
+    socket = io("https://fabracobe.sharda.co.in", {
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
     });

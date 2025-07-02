@@ -81,7 +81,7 @@ export default function DashboardPage() {
 
         // Fetch cases from API
         const casesResponse = await fetch(
-          "http://localhost:9223/api/cases",
+          "https://fabracobe.sharda.co.in/api/cases",
           {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ export default function DashboardPage() {
 
         // Fetch users from API
         const usersResponse = await fetch(
-          "http://localhost:9223/api/users",
+          "https://fabracobe.sharda.co.in/api/users",
           {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -130,7 +130,7 @@ export default function DashboardPage() {
     const fetchCases = async () => {
       try {
         const res = await fetch(
-          "http://localhost:9223/api/cases",
+          "https://fabracobe.sharda.co.in/api/cases",
           {
           headers: {
             Authorization: `Bearer ${token}`,

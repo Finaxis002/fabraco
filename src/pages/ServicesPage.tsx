@@ -240,7 +240,7 @@ export default function ServicesPage() {
           await axiosInstance.post("/pushnotifications/send-notification", {
             userId,
             message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-            icon: "https://tumbledry.sharda.co.in/favicon.png",
+            icon: "https://fabracobe.sharda.co.in/favicon.png",
           });
         } catch (err) {
           console.error(`Error sending notification to user ${userId}:`, err);
@@ -251,7 +251,7 @@ export default function ServicesPage() {
         await axiosInstance.post("/pushnotifications/send-notification", {
           userId: SUPER_ADMIN_ID,
           message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-          icon: "https://tumbledry.sharda.co.in/favicon.png",
+          icon: "https://fabracobe.sharda.co.in/favicon.png",
         });
       } catch (err) {
         console.error("Error sending notification to Super Admin:", err);

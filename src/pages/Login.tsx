@@ -64,7 +64,7 @@ const Login = () => {
 
       try {
         const response = await fetch(
-          "http://localhost:9223/api/pushnotifications/save-subscription",
+          "https://fabracobe.sharda.co.in/api/pushnotifications/save-subscription",
           {
             method: "POST",
             body: JSON.stringify({
@@ -95,7 +95,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:9223/api/auth/login",
+        "https://fabracobe.sharda.co.in/api/auth/login",
         {
           userId,
           password,
@@ -118,7 +118,7 @@ const Login = () => {
       if (role !== "Admin") {
         try {
           const userRes = await axios.get(
-            `http://localhost:9223/api/users/${user._id}`,
+            `https://fabracobe.sharda.co.in/api/users/${user._id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
