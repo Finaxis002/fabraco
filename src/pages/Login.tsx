@@ -4,7 +4,7 @@ import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const RECAPTCHA_SITE_KEY = "6LfwLlMrAAAAAIFtLSnFxwGP_xfkeDU7xuz69sLa";
+const RECAPTCHA_SITE_KEY = "6Ldl13QrAAAAAEZ3dptOHyuFOHuU6YaFYv_3Xfuv";
 
 const Login = () => {
   const navigate = useNavigate();
