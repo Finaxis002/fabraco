@@ -8,7 +8,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Activity, MessageSquareText, FileText } from "lucide-react";
+import { Activity } from "lucide-react";
 import axiosInstance from "@/utils/axiosInstance";
 
 function getRelativeTime(dateString: string) {
@@ -147,7 +147,7 @@ export default function RecentActivity({
                 `}
                   ></div>
 
-                  <div className="flex flex-col flex-grow min-w-0">
+                  <div className="flex flex-col flex-grow w-full">
                     <p className="text-base sm:text-lg font-semibold text-gray-900 truncate">
                       {activity.title}
                     </p>
@@ -166,7 +166,7 @@ export default function RecentActivity({
                               : activity.status === "Rejected"
                               ? "text-red-600"
                               : "text-gray-600"
-                            : "text-purple-600"
+                              : "text-purple-600"
                         }`}
                       >
                         {activity.status}
