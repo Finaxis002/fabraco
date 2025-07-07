@@ -186,7 +186,7 @@ const handleStatusChange = async (serviceId: string, newStatus: string) => {
 
     // Use backendServiceId in the API call
     const caseRes = await axiosInstance.patch(
-      `http://localhost:9223/api/cases/${caseId}/services/${backendServiceId}/status`,
+      `/cases/${caseId}/services/${backendServiceId}/status`,
       { status: newStatus }
     );
     console.log("API Response: ", caseRes);
