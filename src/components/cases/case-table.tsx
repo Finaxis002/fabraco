@@ -462,8 +462,16 @@ export default function CaseCardView({
                       <Select
                         value={displayStatus}
                         onValueChange={(value) =>
-                          handleStatusChange(caseData.id ?? "", value)
+                          isAdmin || permissions?.edit
+                            ? handleStatusChange(caseData.id ?? "", value)
+                            : toast({
+                                title: "Permission Denied",
+                                description:
+                                  "You are not allowed to change the case status.",
+                                variant: "destructive",
+                              })
                         }
+                        disabled={!(isAdmin || permissions?.edit)}
                       >
                         <SelectTrigger
                           className={`w-[150px] rounded-md case-table ${
