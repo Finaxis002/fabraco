@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import ReCAPTCHA from "react-google-recaptcha";
+import { setLoginTime } from "@/utils/authUtils";
 
 const RECAPTCHA_SITE_KEY = "6LfwLlMrAAAAAIFtLSnFxwGP_xfkeDU7xuz69sLa";
 
@@ -136,6 +137,9 @@ const Login = () => {
       localStorage.setItem("userRole", role);
       localStorage.setItem("user", JSON.stringify(fullUser));
 
+      // Set login time for auto logout functionality
+      setLoginTime();
+
       // Call the subscribeToPushNotifications function after login
       subscribeToPushNotifications(fullUser._id, token);
 
@@ -166,7 +170,7 @@ const Login = () => {
 
         <div className="p-8">
           {/* Logo/Title */}
-          
+           
 
           <h2 className="text-3xl font-bold text-center mb-2 text-gray-800">
             FCA - Fabrico
