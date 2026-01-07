@@ -26,3 +26,5 @@ export const STATUS_CONFIG: Record<
     lightColor: "#eef6dc",
   },
 };
+
+export const STATUS_COLORS = STATUS_CONFIG;

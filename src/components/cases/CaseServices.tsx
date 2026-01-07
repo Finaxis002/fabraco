@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { SERVICE_STATUS, STATUS_COLORS } from "@/lib/statusConfig";
+import { SERVICE_STATUS } from "@/lib/statusConfig";
 import { Progress } from "@/components/ui/progress";
 import ServiceRemarks from "./ServiceRemarks";
 import { useAppDispatch } from "../../hooks/hooks";
