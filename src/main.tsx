@@ -9,6 +9,15 @@ import { store } from "./store";
 import { AppNameProvider } from "./contenxt/AppNameContext";
 import { AuthProvider } from "./contenxt/AuthProvider";
 
+// Unregister any existing service worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.getRegistrations().then((registrations) => {
+    registrations.forEach((registration) => {
+      registration.unregister();
+    });
+  });
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>

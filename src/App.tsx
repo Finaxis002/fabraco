@@ -14,15 +14,13 @@ import SettingsPage from "./pages/SettingsPage";
 import OwnersPage from "./pages/OwnersPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ProfilePage from "./pages/ProfilePage"; // Import the new ProfilePage
-import { APP_NAME } from "@/lib/constants";
 import EditCasePage from "./pages/EditCasePage";
 import ClientCaseDetailWrapper from "./pages/ClientCaseDetailWrapper";
 import AllRemarksPage from "./pages/AllRemarksPage";
 import ServicesPage from "./pages/ServicesPage";
-import { useAppName } from "@/contenxt/AppNameContext"; // <-- Import this
-import { fetchPermissions } from "@/features/permissionsSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
+import { useAppName } from "@/contenxt/AppNameContext"; 
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
 
 // Simplified PlaceholderPage for debugging
 
@@ -51,19 +49,6 @@ export default function App() {
   const { appName } = useAppName(); // <-- Use context value
   const dispatch = useDispatch<AppDispatch>();
 
-  // if ("serviceWorker" in navigator) {
-  //   navigator.serviceWorker
-  //     .register("/service-worker.js", { scope: "/" })
-  //     .then((registration) => {
-  //       console.log(
-  //         "Service Worker registered with scope:",
-  //         registration.scope
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.error("Service Worker registration failed:", error);
-  //     });
-  // }
 
  
   useEffect(() => {

@@ -31,65 +31,6 @@ const Login = () => {
     setRecaptchaToken(token || "");
   };
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.ready
-      .then((registration) => {
-        // Ensure the service worker is ready before subscribing to push notifications
-        console.log("Service Worker ready");
-      })
-      .catch((error) => {
-        console.error("Service Worker is not ready", error);
-      });
-  }
-
-
-  const subscribeToPushNotifications = async (
-    userId: string,
-    token: string
-  ) => {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      console.log("Notification permission granted.");
-      // 1. Register service worker if not already registered
-      await navigator.serviceWorker.register("/service-worker.js");
-
-      // 2. Wait for the SW to be ready and controlling the page
-      const swRegistration = await navigator.serviceWorker.ready;
-
-      // 3. NOW safe to subscribe for push!
-      const subscription = await swRegistration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey:
-          "BFiAnzKqV9C437P10UIT5_daMne46XuJiVuSn4zQh2MQBjUIwMP9PMgk2TFQL9LOSiQy17eie7XRYZcJ0NE7jMs",
-      });
-
-      try {
-        const response = await fetch(
-          "https://fabracobe.sharda.co.in/api/pushnotifications/save-subscription",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              userId,
-              subscription,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Failed to save subscription");
-        }
-        console.log("Subscription saved.");
-      } catch (error) {
-        console.error("Failed to save subscription:", error);
-      }
-    } else {
-      console.error("Notification permission denied.");
-    }
-  };
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -140,9 +81,6 @@ const Login = () => {
       // Set login time for auto logout functionality
       setLoginTime();
 
-      // Call the subscribeToPushNotifications function after login
-      subscribeToPushNotifications(fullUser._id, token);
-
       navigate(role === "Admin" ? "/admin-dashboard" : "/user-dashboard");
     } catch (err: any) {
       if (err.response?.status === 429) {
@@ -173,7 +111,7 @@ const Login = () => {
            
 
           <h2 className="text-3xl font-bold text-center mb-2 text-gray-800">
-            FCA - Fabrico
+            FCA - Waasle
           </h2>
           <p className="text-center  text-cyan-600 my-4 text-xl font-semibold mb-8">
             {isAdminLogin ? "Admin Dashboard" : "User Dashboard"}

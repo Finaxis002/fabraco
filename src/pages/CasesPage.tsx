@@ -398,14 +398,32 @@ export default function CasesPage() {
     setFilteredCases(casesToDisplay);
   }, [allCases, activeFilter, permissions, currentUser]);
 
-  const handleDelete = async (caseId: string) => {
-    if (window.confirm("Are you sure you want to delete this case?")) {
+ const handleDelete = async (caseId: string) => {
+  if (window.confirm("Are you sure you want to delete this case?")) {
+    try {
+      // Optimistically update the UI by removing the case from filteredCases
+      setFilteredCases(prevCases => prevCases.filter(c => c._id !== caseId));
+      
+      // Also remove from the Redux store's allCases
+      // You might need to dispatch an action to remove from Redux store
+      // Or just wait for the getCases() to refresh
+      
       await dispatch(deleteCase(caseId));
-      // Optionally refresh cases after delete
-      dispatch(getCases());
+      
+      // Refresh cases from server
+      await dispatch(getCases());
+      
+      // Force update by resetting filteredCases based on the new allCases
+      // This will happen automatically when the allCases updates, 
+      // but we need to ensure the useEffect runs
+      
+    } catch (error) {
+      console.error("Failed to delete case:", error);
+      // Revert optimistic update on error
+      dispatch(getCases()); // Refetch to restore correct state
     }
-  };
-
+  }
+};
   const handleFilterChange = (filterValue: DashboardFilterStatus) => {
     setActiveFilter(filterValue);
   };

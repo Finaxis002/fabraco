@@ -32,7 +32,7 @@ import {
 } from "lucide-react"; // Added Users2
 
 
-export const APP_NAME = "FranchiseFlow";
+export const APP_NAME = "Waasle";
 
 export interface NavItem {
   label: string;
@@ -51,45 +51,55 @@ export const NAV_ITEMS: NavItem[] = [
 
 // Using HSL values from globals.css for direct style binding
 
-export const STATUS_CONFIG: Record<StatusType, { color: string; lightColor: string; Icon: React.ElementType }> = {
+export const STATUS_CONFIG: Record<
+  StatusType,
+  { color: string; lightColor: string; Icon: React.ElementType }
+> = {
   Pending: {
-    color: "hsl(0, 0%, 70%)",
-    lightColor: "hsl(0, 0%, 90%)",
+    color: "hsl(90, 10%, 55%)",          // neutral muted green-grey
+    lightColor: "hsl(90, 20%, 90%)",
     Icon: Hourglass,
   },
+
   "To be Started": {
-    color: "hsl(200, 80%, 60%)",
-    lightColor: "hsl(200, 80%, 90%)",
+    color: "hsl(86, 48%, 46%)",           // #84c226 (primary green)
+    lightColor: "hsl(86, 60%, 88%)",      // #dbf2b8
     Icon: Hourglass,
   },
+
   "New-Case": {
-   color: "hsl(200, 80%, 60%)",
-    lightColor: "hsl(200, 80%, 90%)",
+    color: "hsl(86, 48%, 46%)",           // same as To be Started
+    lightColor: "hsl(86, 60%, 88%)",
     Icon: Hourglass,
   },
+
   "In-Progress": {
-    color: "hsl(210, 100%, 55%)",
-    lightColor: "hsl(210, 100%, 85%)",
+    color: "hsl(74, 42%, 39%)",           // #8aba3f (olive green)
+    lightColor: "hsl(74, 55%, 85%)",
     Icon: Zap,
   },
+
   Completed: {
-    color: "hsl(210, 100%, 40%)",
-    lightColor: "hsl(210, 100%, 75%)",
+    color: "hsl(88, 45%, 30%)",           // #5a921e (dark green)
+    lightColor: "hsla(87, 35%, 58%, 1.00)",
     Icon: CheckCircle2,
   },
+
   Rejected: {
-    color: "hsl(0, 75%, 55%)",
-    lightColor: "hsl(0, 75%, 85%)",
+    color: "hsl(86, 30%, 45%)",           // muted green (no red panic)
+    lightColor: "hsla(85, 40%, 67%, 1.00)",
     Icon: XCircle,
   },
+
   "Detail Required": {
-    color: "", // put actual colors if needed
-    lightColor: "",
-    Icon: XCircle, // replace with actual icon component
+    color: "hsl(86, 35%, 40%)",           // slightly stronger muted green
+    lightColor: "hsla(87, 41%, 71%, 1.00)",
+    Icon: XCircle,
   },
+
   Total: {
-    color: "#3b82f6",
-    lightColor: "#bfdbfe",
+    color: "hsl(86, 48%, 46%)",           // primary green
+    lightColor: "hsla(86, 70%, 78%, 1.00)",
     Icon: PieChart,
   },
 };
@@ -133,7 +143,7 @@ export const MOCK_USERS: User[] = [
   {
     id: "user1",
     name: "Admin User",
-    email: "admin@franchiseflow.com",
+    email: "admin@wasle.com",
     role: "Admin",
     avatarUrl: generateAvatarUrl("Admin User"),
     dataAIHint: "person avatar",

@@ -43,7 +43,7 @@ import CreatableSelect from "react-select/creatable";
 import { Controller } from "react-hook-form";
 import { getAllUsers } from "@/features/userSlice"; // adjust path if needed
 // import { AddServiceDialog } from "../ui/AddServiceDialog";
-import type { ServiceStatus } from "@/types/franchise"; // <-- Adjust the import path as needed
+import type { ServiceStatus } from "@/types/waasle"; // <-- Adjust the import path as needed
 import axiosInstance from "@/utils/axiosInstance";
 
 const allowedStatuses = [
@@ -58,7 +58,7 @@ const caseFormSchema = z.object({
   ownerName: z.string().min(2, "Owner's name must be at least 2 characters."),
   clientName: z.string().min(2, "Client name must be at least 2 characters."),
   unitName: z.string().min(2, "Unit name must be at least 2 characters."),
-  franchiseAddress: z.string().min(5, "Franchise address is required."),
+  WaasleAddress: z.string().min(5, "Waasle address is required."),
   stateHead: z.string().optional(),
   authorizedPerson: z.string().min(2, "Authorized Person's name is required."), // Make this required
   services: z
@@ -140,7 +140,7 @@ export default function AddCaseForm() {
       ownerName: "",
       clientName: "", // new client field
       unitName: "",
-      franchiseAddress: "",
+      WaasleAddress: "",
       stateHead: "",
       authorizedPerson: "",
       services: defaultServices,
@@ -299,7 +299,7 @@ export default function AddCaseForm() {
           ownerName: caseData.ownerName,
           clientName: caseData.clientName,
           unitName: caseData.unitName,
-          franchiseAddress: caseData.franchiseAddress,
+          WaasleAddress: caseData.WaasleAddress,
           stateHead: Array.isArray(caseData.stateHead)
             ? caseData.stateHead.join(", ")
             : caseData.stateHead || "",
@@ -532,7 +532,7 @@ export default function AddCaseForm() {
         ownerName: data.ownerName,
         clientName: data.clientName,
         unitName: data.unitName,
-        franchiseAddress: data.franchiseAddress,
+        WaasleAddress: data.WaasleAddress,
         stateHead: data.stateHead || "",
         authorizedPerson: data.authorizedPerson || "",
         services: newCaseServices,
@@ -658,9 +658,9 @@ export default function AddCaseForm() {
           {/* Basic Info */}
           <Card>
             <CardHeader>
-              <CardTitle>Franchise & Owner Details</CardTitle>
+              <CardTitle>Waasle & Owner Details</CardTitle>
               <CardDescription>
-                Provide the basic information about the franchise unit and its
+                Provide the basic information about the Waasle unit and its
                 owner.
               </CardDescription>
             </CardHeader>
@@ -786,16 +786,16 @@ export default function AddCaseForm() {
                   )}
                 />
 
-                {/* Franchise Address */}
+                {/* Waasle Address */}
                 <FormField
                   control={form.control}
-                  name="franchiseAddress"
+                  name="WaasleAddress"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
-                      <FormLabel>Franchise Address</FormLabel>
+                      <FormLabel>Waasle Address</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Full address of the franchise unit"
+                          placeholder="Full address of the Waasle unit"
                           rows={3}
                           {...field}
                         />

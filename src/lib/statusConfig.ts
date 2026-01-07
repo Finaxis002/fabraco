@@ -1,15 +1,28 @@
-// statusConfig.ts
 export const SERVICE_STATUS = {
-  TO_BE_STARTED: "To be Started",
-  DETAIL_REQUIRED: "Detail Required",
+  NEW_CASE: "New-Case",
   IN_PROGRESS: "In-Progress",
   COMPLETED: "Completed",
-  
-};
+  REJECTED: "Rejected",
+} as const;
 
-export const STATUS_COLORS: Record<string, string> = {
-  [SERVICE_STATUS.TO_BE_STARTED]: "#3b82f6", // blue
-  [SERVICE_STATUS.DETAIL_REQUIRED]: "#f97316", // orange
-  [SERVICE_STATUS.IN_PROGRESS]: "#facc15", // yellow
-  [SERVICE_STATUS.COMPLETED]: "#22c55e", // green
+export const STATUS_CONFIG: Record<
+  string,
+  { color: string; lightColor: string }
+> = {
+  "New-Case": {
+    color: "#84c226",       // primary green
+    lightColor: "#dbf2b8",
+  },
+  "In-Progress": {
+    color: "#8aba3f",       // olive green
+    lightColor: "#e8f5cf",
+  },
+  Completed: {
+    color: "#5a921e",       // dark green
+    lightColor: "#d9edb3",
+  },
+  Rejected: {
+    color: "#99be60",       // muted green (NOT red)
+    lightColor: "#eef6dc",
+  },
 };

@@ -67,7 +67,7 @@ export default function MainSidebar() {
             <img
               src="/favicon.png"
               alt="FCA Logo"
-              className="h-8 w-8 shrink-0 rounded !bg-transparent object-contain"
+              className="h-12 w-12 shrink-0 rounded !bg-transparent object-contain ml-[-8px]"
               style={{ background: "white" }} // Optional: white background for contrast
             />
             {isExpanded && (

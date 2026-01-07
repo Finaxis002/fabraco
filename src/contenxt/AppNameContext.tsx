@@ -10,7 +10,7 @@ const AppNameContext = createContext<AppNameContextType | undefined>(undefined);
 
 // context/AppNameContext.tsx
 export function AppNameProvider({ children }: { children: ReactNode }) {
-  const [appName, setAppNameState] = useState("FranchiseFlow");
+  const [appName, setAppNameState] = useState("Waasle");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

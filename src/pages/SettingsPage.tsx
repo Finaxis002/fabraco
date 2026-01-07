@@ -44,7 +44,7 @@ export default function SettingsPage() {
     <>
       <PageHeader
         title="Application Settings"
-        description="Configure and customize FranchiseFlow to your needs."
+        description="Configure and customize Waasle to your needs."
       />
       <SettingsLayout
         sections={settingsSections}
