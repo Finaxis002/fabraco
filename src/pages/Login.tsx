@@ -54,6 +54,7 @@ const Login = () => {
         return;
       }
 
+      
       let fullUser = user;
 
       // If not admin, fetch full user details
