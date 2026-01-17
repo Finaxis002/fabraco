@@ -11,36 +11,42 @@ import {
     MessageCircle,
 } from "lucide-react"; // Assuming icons are imported from lucide-react
 import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const AccessPermissions = ({ currentUser }: { currentUser: any }) => {
   const permissions = currentUser.permissions || {};
+  const reduxPermissions = useSelector((state: RootState) => state.users.permissions);
+
+  // Use Redux permissions if available, otherwise fall back to currentUser permissions
+  const effectivePermissions = reduxPermissions || permissions;
 
 const permissionsList = [
   {
     label: "Create Case",
     allowed:
-      currentUser.name === "Super Admin" ? true : permissions.createCaseRights,
+      currentUser.name === "Super Admin" ? true : effectivePermissions.createCaseRights,
     icon: <PlusCircle className="h-5 w-5" />,
   },
   {
     label: "Edit Case",
-    allowed: currentUser.name === "Super Admin" ? true : permissions.edit,
+    allowed: currentUser.name === "Super Admin" ? true : effectivePermissions.edit,
     icon: <Edit className="h-5 w-5" />,
   },
   {
     label: "Delete Case",
-    allowed: currentUser.name === "Super Admin" ? true : permissions.delete,
+    allowed: currentUser.name === "Super Admin" ? true : effectivePermissions.delete,
     icon: <Trash className="h-5 w-5" />,
   },
   {
     label: "View Reports",
-    allowed: currentUser.name === "Super Admin" ? true : permissions.viewRights,
+    allowed: currentUser.name === "Super Admin" ? true : effectivePermissions.viewRights,
     icon: <BarChart className="h-5 w-5" />,
   },
   {
     label: "Assign Tasks",
     allowed:
-      currentUser.name === "Super Admin" ? true : permissions.allCaseAccess,
+      currentUser.name === "Super Admin" ? true : effectivePermissions.allCaseAccess,
     icon: <ClipboardList className="h-5 w-5" />,
   },
   {
@@ -48,7 +54,7 @@ const permissionsList = [
     allowed:
       currentUser.name === "Super Admin"
         ? true
-        : permissions.createUserRights,
+        : effectivePermissions.createUserRights,
     icon: <UserCircle className="h-5 w-5" />,
   },
   {
@@ -56,17 +62,17 @@ const permissionsList = [
     allowed:
       currentUser.name === "Super Admin"
         ? true
-        : permissions.userRolesAndResponsibility,
+        : effectivePermissions.userRolesAndResponsibility,
     icon: <Shield className="h-5 w-5" />,
   },
   {
     label: "View Remarks",
-    allowed: currentUser.name === "Super Admin" ? true : permissions.remarks,
+    allowed: currentUser.name === "Super Admin" ? true : effectivePermissions.remarks,
     icon: <Bell className="h-5 w-5" />,
   },
   {
     label: "Access Chat",
-    allowed: currentUser.name === "Super Admin" ? true : permissions.chat,
+    allowed: currentUser.name === "Super Admin" ? true : effectivePermissions.chat,
     icon: <MessageCircle className="h-5 w-5" />, // Changed to a valid icon from lucide-react
   },
   {

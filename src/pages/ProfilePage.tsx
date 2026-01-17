@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useDispatch } from "react-redux";
 import PageHeader from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 
@@ -29,6 +30,8 @@ import { useToast } from "@/hooks/use-toast";
 import { APP_NAME } from "@/lib/constants";
 import AccessPermissions from "@/components/AccessPermissions";
 import ResetPasswordModal from "@/components/adminpassowrdreset/ResetPasswordModal";
+import { fetchCurrentUser } from "@/features/userSlice";
+import { AppDispatch } from "@/store";
 
 const profileFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -39,6 +42,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfilePage() {
   const { toast } = useToast();
+  const dispatch = useDispatch<AppDispatch>();
 
   // Load user from localStorage (parse JSON or null)
   const [currentUser, setCurrentUser] = useState(() => {
@@ -54,6 +58,30 @@ export default function ProfilePage() {
 
   useEffect(() => {
     document.title = `My Profile | ${APP_NAME}`;
+  }, []);
+
+  // Fetch the latest user data from the backend on component mount
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
+
+  // Listen for storage events to update user data in real-time
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "user") {
+        const updatedUser = localStorage.getItem("user");
+        if (updatedUser) {
+          setCurrentUser(JSON.parse(updatedUser));
+        } else {
+          setCurrentUser(null);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
   const profileForm = useForm<ProfileFormValues>({

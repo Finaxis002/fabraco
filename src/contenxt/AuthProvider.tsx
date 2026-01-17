@@ -29,6 +29,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(false);
   }, []);
 
+  // Listen for storage events to update user data in real-time
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === "user") {
+        const updatedUser = localStorage.getItem("user");
+        if (updatedUser) {
+          setCurrentUser(JSON.parse(updatedUser));
+        } else {
+          setCurrentUser(null);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   // Standard login logic
   const login = (user: User, token: string) => {
     setCurrentUser(user);
