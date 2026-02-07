@@ -12,6 +12,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_DURATION = 5 * 60 * 1000;
+  const [isLockedOut, setIsLockedOut] = useState(false);
+  const [remainingTime, setRemainingTime] = useState(0);
+  const [failedAttempts, setFailedAttempts] = useState(0);
 
   // Custom CAPTCHA states
   const [captchaText, setCaptchaText] = useState("");
@@ -31,6 +36,35 @@ const Login = () => {
   useEffect(() => {
     generateCaptcha();
   }, []);
+useEffect(() => {
+  const checkLockout = () => {
+    const lockoutUntil = localStorage.getItem("lockoutUntil");
+    if (lockoutUntil) {
+      const remaining = parseInt(lockoutUntil) - Date.now();
+      if (remaining > 0) {
+        const seconds = Math.ceil(remaining / 1000);
+        setIsLockedOut(true);
+        setRemainingTime(seconds);
+
+        const mins = Math.floor(seconds / 60);
+        const secs = (seconds % 60).toString().padStart(2, '0');
+        setError(`Too many attempts. Login disabled for ${mins}:${secs} minutes.`);
+        
+      } else {
+        setIsLockedOut(false);
+        setRemainingTime(0);
+        setError(""); 
+        localStorage.removeItem("lockoutUntil");
+        localStorage.removeItem("loginAttempts");
+      }
+    }
+  };
+
+  checkLockout();
+  const timer = setInterval(checkLockout, 1000);
+  return () => clearInterval(timer);
+}, []);
+
 
   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -50,7 +84,9 @@ const Login = () => {
         isAdminLogin,
         recaptchaToken: "manual-captcha-verified",
       });
-
+setFailedAttempts(0); 
+  localStorage.removeItem("loginAttempts");
+  localStorage.removeItem("lockoutUntil");
       const { token, role, user } = res.data;
 
       // Check if trying to login as admin but user is not an admin
@@ -85,24 +121,29 @@ const Login = () => {
       setLoginTime();
 
       navigate(role === "Admin" ? "/admin-dashboard" : "/user-dashboard");
-    } catch (err: any) {
-      if (err.response?.status === 429) {
-        setError(
-          err.response.data.message ||
-            "Too many attempts. Please try again later."
-        );
-      } else if (err.response?.status === 400) {
-        setError(err.response?.data?.message || "CAPTCHA verification failed");
-      } else if (err.response?.status === 401) {
-        setError(err.response?.data?.message || "Invalid credentials");
-      } else {
-        setError(
-          err.response?.data?.message ||
-            "Login failed - Please check your credentials"
-        );
-      }
-      generateCaptcha();
-    }
+} catch (err: any) {
+  const currentAttempts = parseInt(localStorage.getItem("loginAttempts") || "0") + 1;
+  localStorage.setItem("loginAttempts", currentAttempts.toString());
+  setFailedAttempts(currentAttempts); // State update 
+
+  // 2. Lockout check
+  if (currentAttempts >= MAX_ATTEMPTS) {
+    const expiry = Date.now() + LOCKOUT_DURATION;
+    localStorage.setItem("lockoutUntil", expiry.toString());
+    setIsLockedOut(true);
+    setError("Too many attempts. Login disabled for 5 minutes.");
+  } else {
+    const left = MAX_ATTEMPTS - currentAttempts;
+    
+    let mainMsg = "Login failed";
+    if (err.response?.status === 401) mainMsg = "Invalid credentials";
+    if (err.response?.status === 400) mainMsg = "CAPTCHA verification failed";
+
+    setError(`${mainMsg}. ${left} attempts remaining.`);
+  }
+
+  generateCaptcha();
+}
   };
 
   return (
@@ -241,13 +282,16 @@ const Login = () => {
             <button
               type="button"
               onClick={handleLogin}
-              className="w-full flex justify-center items-center py-3 px-4 rounded-lg text-lg font-medium text-white
-                bg-gradient-to-r from-[#84c226] to-[#5a921e]
-                hover:from-[#8aba3f] hover:to-[#5a921e]
-                focus:ring-2 focus:ring-offset-2 focus:ring-[#84c226]
-                transition-all"
-            >
-              Log in →
+              disabled={isLockedOut} 
+               className={`w-full flex justify-center items-center py-3 px-4 rounded-lg text-lg font-medium text-white transition-all
+    ${isLockedOut 
+      ? "bg-gray-400 cursor-not-allowed opacity-70" 
+      : "bg-gradient-to-r from-[#84c226] to-[#5a921e] hover:from-[#8aba3f] hover:to-[#5a921e]"
+    }`}
+>
+  {isLockedOut 
+    ? `Locked` 
+              : "Log in →"}
             </button>
           </div>
         </div>
