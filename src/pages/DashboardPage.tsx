@@ -29,6 +29,7 @@ interface CaseStats {
 }
 
 export default function DashboardPage() {
+    const BASE_URL = import.meta.env.VITE_BASE_URL
   const [cases, setCases] = useState<Case[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [notifications, setNotifications] = useState<AppNotification[]>([]);
@@ -81,7 +82,7 @@ export default function DashboardPage() {
 
         // Fetch cases from API
         const casesResponse = await fetch(
-          "https://fabracobe.sharda.co.in/api/cases",
+          `${BASE_URL}/api/cases`,
           {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -92,7 +93,7 @@ export default function DashboardPage() {
 
         // Fetch users from API
         const usersResponse = await fetch(
-          "https://fabracobe.sharda.co.in/api/users",
+          `${BASE_URL}/api/users`,
           {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -130,7 +131,7 @@ export default function DashboardPage() {
     const fetchCases = async () => {
       try {
         const res = await fetch(
-          "https://fabracobe.sharda.co.in/api/cases",
+          `${BASE_URL}/api/cases`,
           {
           headers: {
             Authorization: `Bearer ${token}`,

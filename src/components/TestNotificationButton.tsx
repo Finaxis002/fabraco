@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 function TestNotificationButton() {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(""); // To track and display status
   const [isLoading, setIsLoading] = useState(false); // Loading state
@@ -34,7 +35,7 @@ function TestNotificationButton() {
 
     try {
       const response = await fetch(
-        "https://fabracobe.sharda.co.in/api/pushnotifications/send-notification",
+        `${BASE_URL}/api/pushnotifications/send-notification`,
         {
           method: "POST",
           headers: {

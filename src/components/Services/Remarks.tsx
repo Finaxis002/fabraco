@@ -50,6 +50,7 @@ export default function Remarks({
   serviceName,
   onRemarkRead,
 }: ServiceRemarksProps) {
+    const BASE_URL = import.meta.env.VITE_BASE_URL
   const [remarks, setRemarks] = useState<Remark[]>([]);
   const [newRemarkText, setNewRemarkText] = useState("");
   const [loading, setLoading] = useState(false);
@@ -68,8 +69,8 @@ export default function Remarks({
 
       // Choose API based on token availability
       const url = token
-        ? `https://fabracobe.sharda.co.in/api/cases/${caseId}/services/${serviceId}/remarks`
-        : `https://fabracobe.sharda.co.in/api/cases/${caseId}/services/${serviceId}`;
+        ? `${BASE_URL}/api/cases/${caseId}/services/${serviceId}/remarks`
+        : `${BASE_URL}/api/cases/${caseId}/services/${serviceId}`;
 
       const headers: Record<string, string> = {
         "Content-Type": "application/json",

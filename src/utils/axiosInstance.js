@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://fabracobe.sharda.co.in/api",
+baseURL: (import.meta.env.VITE_BASE_URL) + "/api"
 });
 
 axiosInstance.interceptors.request.use(

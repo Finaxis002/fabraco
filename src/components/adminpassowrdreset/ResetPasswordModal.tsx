@@ -11,6 +11,7 @@ export default function ResetPasswordModal({
   adminId,
   onClose,
 }: ResetPasswordModalProps) {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +30,7 @@ export default function ResetPasswordModal({
     }
 
     try {
-      const res = await fetch("https://fabracobe.sharda.co.in/api/admin/reset-password", {
+      const res = await fetch(`${BASE_URL}/api/admin/reset-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
