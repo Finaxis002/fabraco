@@ -54,6 +54,7 @@ function mapServiceStatus(status: string) {
 }
 
 export default function ServicesPage() {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const dispatch = useDispatch<AppDispatch>();
   const { cases: allCases, loading } = useSelector(
     (state: RootState) => state.case
@@ -240,7 +241,7 @@ export default function ServicesPage() {
           await axiosInstance.post("/pushnotifications/send-notification", {
             userId,
             message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-            icon: "https://fabracobe.sharda.co.in/favicon.png",
+            icon: `${BASE_URL}/favicon.png`,
           });
         } catch (err) {
           console.error(`Error sending notification to user ${userId}:`, err);
@@ -251,7 +252,7 @@ export default function ServicesPage() {
         await axiosInstance.post("/pushnotifications/send-notification", {
           userId: SUPER_ADMIN_ID,
           message: `Service "${service.name}" in case "${caseName}" status updated to "${newStatus}" by ${userObj.name}.`,
-          icon: "https://fabracobe.sharda.co.in/favicon.png",
+          icon: `${BASE_URL}/favicon.png`,
         });
       } catch (err) {
         console.error("Error sending notification to Super Admin:", err);

@@ -24,6 +24,7 @@ interface CaseChatProps {
 let socket: Socket;
 
 function getFormattedChatTime(timestamp: string): string {
+
   const date = new Date(timestamp);
   return date.toLocaleTimeString("en-US", {
     hour: "2-digit",
@@ -69,6 +70,7 @@ export default function CaseChat({
   assignedUsers,
   initialMessages = [],
 }: CaseChatProps) {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   // console.log("Assigned users prop:", assignedUsers);
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [newMessage, setNewMessage] = useState("");
@@ -108,7 +110,7 @@ export default function CaseChat({
 
   // Socket connection and event handlers
   useEffect(() => {
-    socket = io("https://fabracobe.sharda.co.in", {
+    socket = io(BASE_URL, {
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
     });

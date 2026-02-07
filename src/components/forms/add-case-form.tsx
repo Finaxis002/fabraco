@@ -112,6 +112,7 @@ const defaultServices = MOCK_SERVICES_TEMPLATES.map((service) => ({
 }));
 
 export default function AddCaseForm() {
+    const BASE_URL = import.meta.env.VITE_BASE_URL
   const [globalServices, setGlobalServices] = useState<{ name: string }[]>([]);
   const { caseId } = useParams();
   const isEditing = !!caseId;
@@ -495,7 +496,7 @@ export default function AddCaseForm() {
         // Delete remarks for each deselected service
         for (const service of deselectedServices) {
           try {
-            await axiosInstance.delete(`https://fabracobe.sharda.co.in/api/remarks`, {
+            await axiosInstance.delete(`${BASE_URL}/api/remarks`, {
               data: {
                 caseId: caseId,
                 serviceId: service.serviceId || service.id,

@@ -2,10 +2,11 @@ import axios from "axios";
 
 // This should be called on app start or whenever access token is missing/expired
 export async function getNewAccessToken() {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   try {
     // IMPORTANT: withCredentials:true so the cookie is sent!
     const res = await axios.post(
-      "https://fabracobe.sharda.co.in/api/auth/refresh",
+       `${BASE_URL}/api/auth/refresh`,
       {},
       { withCredentials: true }
     );

@@ -5,6 +5,7 @@ import axios from "axios";
 import { setLoginTime } from "@/utils/authUtils";
 
 const Login = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL
   const navigate = useNavigate();
   const [isAdminLogin, setIsAdminLogin] = useState(true);
   const [userId, setUserId] = useState("");
@@ -43,7 +44,7 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.post("https://fabracobe.sharda.co.in/api/auth/login", {
+    const res = await axios.post(`${BASE_URL}/api/auth/login`, {
         userId,
         password,
         isAdminLogin,
@@ -64,7 +65,7 @@ const Login = () => {
       if (role !== "Admin") {
         try {
           const userRes = await axios.get(
-            `https://fabracobe.sharda.co.in/api/users/${user._id}`,
+            `${BASE_URL}/api/users/${user._id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
